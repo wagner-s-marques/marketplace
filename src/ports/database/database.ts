@@ -8,11 +8,19 @@ import type { ProductRow } from "./wire/in/product.row.js";
 
 export class SqliteDatabase implements Database {
   private readonly findStmt: Sqlite.Statement;
+  private readonly findByNameAndBrandStmt: Sqlite.Statement;
+  private readonly findByBrandStmt: Sqlite.Statement;
   private readonly insertStmt: Sqlite.Statement;
 
   constructor(private readonly conn: Sqlite.Database) {
     this.findStmt = conn.prepare(
-      "SELECT Id, Name, Brand, Category FROM Product WHERE Name IS ? AND Brand IS ? AND Category IS ?",
+      "SELECT Id, Name, Brand, Category FROM Product WHERE normalize(Name) IS normalize(?) AND normalize(Brand) IS normalize(?) AND normalize(Category) IS normalize(?)",
+    );
+    this.findByNameAndBrandStmt = conn.prepare(
+      "SELECT Id, Name, Brand, Category FROM Product WHERE normalize(Name) IS normalize(?) AND normalize(Brand) IS normalize(?) LIMIT 2",
+    );
+    this.findByBrandStmt = conn.prepare(
+      "SELECT Id, Name, Brand, Category FROM Product WHERE normalize(Brand) = normalize(?)",
     );
     this.insertStmt = conn.prepare(
       "INSERT INTO SellerProduct (SellerName, ProductId, SellerProductId) VALUES (@SellerName, @ProductId, @SellerProductId)",
@@ -29,6 +37,16 @@ export class SqliteDatabase implements Database {
       | undefined;
     if (!row) return null;
     return ProductAdapter.toProduct(row);
+  }
+
+  findProductsByNameAndBrand(name: string, brand: string | null): Product[] {
+    const rows = this.findByNameAndBrandStmt.all(name, brand) as ProductRow[];
+    return rows.map((row) => ProductAdapter.toProduct(row));
+  }
+
+  findProductsByBrand(brand: string): Product[] {
+    const rows = this.findByBrandStmt.all(brand) as ProductRow[];
+    return rows.map((row) => ProductAdapter.toProduct(row));
   }
 
   saveSellerProduct(sellerProduct: SellerProduct): void {

@@ -7,6 +7,11 @@ export interface Database {
     brand: string | null,
     category: string | null,
   ): Product | null;
+  findProductsByNameAndBrand(
+    name: string,
+    brand: string | null,
+  ): Product[];
+  findProductsByBrand(brand: string): Product[];
   saveSellerProduct(sellerProduct: SellerProduct): void;
   runTransaction<T>(fn: () => T): T;
 }
