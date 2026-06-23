@@ -2,24 +2,24 @@ import type { Database } from "../model/database.js";
 import type { SellerProductRequest } from "../model/seller-product.js";
 import type { ProductController } from "./product.js";
 
-export interface ConsolidationResult {
+export interface Response {
   total: number;
   linked: number;
   notFound: number;
   notFoundRequests: string[];
 }
 
-export interface ConsolidateDeps {
+export interface Deps {
   database: Database;
   productController: ProductController;
 }
 
 export class SellerProductController {
-  constructor(private readonly deps: ConsolidateDeps) {}
+  constructor(private readonly deps: Deps) {}
 
-  consolidate(requests: SellerProductRequest[]): ConsolidationResult {
+  consolidate(requests: SellerProductRequest[]): Response {
     return this.deps.database.runTransaction(() => {
-      const result: ConsolidationResult = {
+      const result: Response = {
         total: requests.length,
         linked: 0,
         notFound: 0,
