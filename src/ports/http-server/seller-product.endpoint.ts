@@ -13,7 +13,7 @@ export class SellerProductEndpoint {
     const upload = multer({ storage: multer.memoryStorage() });
 
     this.router.post(
-      "/catalog/consolidate",
+      "/catalog/import",
       upload.single("file"),
       (req, res) => {
         if (!req.file) {
