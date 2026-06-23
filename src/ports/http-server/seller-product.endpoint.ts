@@ -1,7 +1,7 @@
 import { Router } from "express";
 import multer from "multer";
 import type { SellerProductController } from "../../domain/controller/seller-product.js";
-import { ConsolidationResultAdapter } from "./adapters/consolidation-result.adapter.js";
+import { SellerProductResponseAdapter } from "./adapters/seller-product-response.adapter.js";
 import { SellerProductRequestAdapter } from "./adapters/seller-product-request.adapter.js";
 import { SellerProductRequestListDtoSchema } from "./wire/in/seller-product-request.dto.js";
 
@@ -43,7 +43,7 @@ export class SellerProductEndpoint {
         const result = this.controller.consolidate(requests);
         return res
           .status(200)
-          .json(ConsolidationResultAdapter.toDto(result));
+          .json(SellerProductResponseAdapter.toDto(result));
       },
     );
   }
