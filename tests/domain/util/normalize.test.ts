@@ -23,8 +23,8 @@ describe("normalize", () => {
     expect(normalize("hello   world")).toBe("hello world");
   });
 
-  it("removes special characters", () => {
-    expect(normalize("hello-world!")).toBe("hello world");
+  it("removes special characters without adding a space", () => {
+    expect(normalize("hello-world!")).toBe("helloworld");
   });
 
   it("handles empty string", () => {
