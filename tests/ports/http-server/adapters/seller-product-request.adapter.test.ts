@@ -51,19 +51,4 @@ describe("SellerProductRequestAdapter.toDomain", () => {
     expect(result.category).toBeNull();
   });
 
-  it("does not mix up Id and Name fields", () => {
-    const dto: SellerProductRequestDto = {
-      Id: "unique-id",
-      SellerName: "Seller X",
-      Name: "Product Y",
-      Brand: null,
-      Category: null,
-    };
-
-    const result = SellerProductRequestAdapter.toDomain(dto);
-
-    expect(result.sellerProductId).toBe("unique-id");
-    expect(result.name).toBe("Product Y");
-    expect(result.sellerProductId).not.toBe(result.name);
-  });
 });

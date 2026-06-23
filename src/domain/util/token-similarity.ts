@@ -21,11 +21,6 @@ export function tokenize(s: string | null): Set<string> {
   return new Set(normalized.split(" ").filter((t) => t.length > 0));
 }
 
-// A "strong" token is one likely to be a distinguishing identifier:
-// either a model code (mixes digits and letters, e.g. "7950x", "m2") or
-// a sufficiently long word (≥4 chars, e.g. "wifi", "iphone").
-// Short generic tokens like "9", "15", "pro", "x" are excluded to avoid
-// spurious matches.
 export function isStrongToken(token: string): boolean {
   const hasDigit = /\d/.test(token);
   const hasLetter = /\p{L}/u.test(token);
