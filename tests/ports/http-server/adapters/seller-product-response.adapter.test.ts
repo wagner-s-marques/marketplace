@@ -1,9 +1,9 @@
 import { SellerProductResponseAdapter } from "../../../../src/ports/http-server/adapters/seller-product-response.adapter.js";
-import type { ConsolidationResult } from "../../../../src/domain/controller/seller-product.js";
+import type { Response } from "../../../../src/domain/controller/seller-product.js";
 
 describe("SellerProductResponseAdapter.toDto", () => {
   it("maps all fields correctly", () => {
-    const result: ConsolidationResult = {
+    const result: Response = {
       total: 10,
       linked: 7,
       notFound: 3,
@@ -21,7 +21,7 @@ describe("SellerProductResponseAdapter.toDto", () => {
   });
 
   it("maps empty notFoundRequests", () => {
-    const result: ConsolidationResult = {
+    const result: Response = {
       total: 5,
       linked: 5,
       notFound: 0,
@@ -34,7 +34,7 @@ describe("SellerProductResponseAdapter.toDto", () => {
   });
 
   it("maps when all requests are not found", () => {
-    const result: ConsolidationResult = {
+    const result: Response = {
       total: 3,
       linked: 0,
       notFound: 3,
@@ -49,7 +49,7 @@ describe("SellerProductResponseAdapter.toDto", () => {
   });
 
   it("maps zero totals", () => {
-    const result: ConsolidationResult = {
+    const result: Response = {
       total: 0,
       linked: 0,
       notFound: 0,

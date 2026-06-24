@@ -1,8 +1,8 @@
-import type { ConsolidationResult } from "../../../domain/controller/seller-product.js";
-import type { ConsolidationResultDto } from "../wire/out/consolidation-result.dto.js";
+import type { Response } from "../../../domain/controller/seller-product.js";
+import type { SellerProductResponseDto } from "../wire/out/seller-product-response.dto.js";
 
 export class SellerProductResponseAdapter {
-  static toDto(result: ConsolidationResult): ConsolidationResultDto {
+  static toDto(result: Response): SellerProductResponseDto {
     return {
       total: result.total,
       linked: result.linked,
