@@ -6,7 +6,7 @@ COPY package*.json tsconfig.json ./
 RUN npm ci
 
 COPY src ./src
-RUN npm run build
+RUN npm run build && cp -r src/ports/database/migrations dist/ports/database/migrations
 
 
 FROM node:20-alpine AS runner
@@ -19,10 +19,6 @@ COPY package*.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 
 COPY --from=builder /app/dist ./dist
-
-RUN addgroup -S app && adduser -S app -G app \
-    && mkdir -p /data && chown -R app:app /data
-USER app
 
 ENV PORT=3000
 ENV DATABASE_PATH=/data/catalog.db
