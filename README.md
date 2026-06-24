@@ -110,7 +110,7 @@ The response is designed to give the caller a clear picture of what happened wit
 
 ## How to run
 
-**With Docker (recommended):**
+**With Docker:**
 
 ```bash
 docker compose up
