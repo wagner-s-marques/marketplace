@@ -23,7 +23,7 @@ export class SqliteDatabase implements Database {
       "SELECT Id, Name, Brand, Category FROM Product WHERE normalize(Brand) = normalize(?)",
     );
     this.insertStmt = conn.prepare(
-      "INSERT INTO SellerProduct (SellerName, ProductId, SellerProductId) VALUES (@SellerName, @ProductId, @SellerProductId)",
+      "INSERT OR IGNORE INTO SellerProduct (SellerName, ProductId, SellerProductId) VALUES (@SellerName, @ProductId, @SellerProductId)",
     );
   }
 
