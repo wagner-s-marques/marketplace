@@ -62,6 +62,12 @@ A real example from the dataset:
 
 After normalization, the token sets are `{processador, amd, ryzen, 9, 7950x}` and `{processor, amd, ryzen, 9, 7950x}`. The intersection is 4 tokens, the union is 6, giving a Jaccard of `0.67`. The shared strong tokens are `ryzen` and `7950x`, so the match is confirmed.
 
+## Production design
+
+![Production architecture](production_solution.jpg)
+
+In production, the Catalog Service would search for products directly in Elasticsearch, which handles fuzzy and name-based matching natively and at scale. This eliminates the need for the custom normalization and Jaccard logic entirely. The SQL database remains the source of truth, and Debezium keeps Elasticsearch in sync by capturing database changes via CDC and publishing them to an async topic that a worker consumes. The merchant request flow itself stays synchronous: the service queries Elasticsearch, finds the match, and registers the product.
+
 ## API
 
 ### `POST /catalog/import`
